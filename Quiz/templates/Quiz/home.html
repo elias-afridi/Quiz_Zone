@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="section-jumbotron" class="jumbotron jumbotron-fluid d-flex justify-content-center align-items-center">
+	<div class="container text-center">
+	  <h1 class="display-1 text-primary">Let's Quiz</h1>
+	  <p class="display-4 d-none d-sm-block">Test your skills and become a master.</p>
+	  <p class="lead">We organize quizzes on various topics.</p>
+
+	  {% if not request.user.is_active %}
+
+	  <p class="lead">Sign up if you haven't already and get access to millions of quizzes on the topic of your interest.</p>
+	  <p><strong> Start Your Journey Here:</strong></p>
+	  <a href="{% url 'register'%}" class="btn btn-lg btn-warning mt-1"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+	  {% endif %}
+	</div>
+  </section>
+  
+{% if request.user.is_active %}
+<section class="section-pagetop bg">
+	<div class="container">
+		<h2 class="title-page">Quizes</h2>
+		
+	</div> <!-- container //  -->
+	</section>
+	<!-- ========================= SECTION INTRO END// ========================= -->
+	
+	<!-- ========================= SECTION CONTENT ========================= -->
+	<section class="section-content padding-y">
+	<div class="container">
+	
+	<div class="row">
+		<aside class="col-md-3">
+			
+	<div class="card">
+		<article class="filter-group">
+			<header class="card-header">
+				<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+					<i class="icon-control fa fa-chevron-down"></i>
+					<h6 class="title">Categories</h6>
+				</a>
+			</header>
+			<div class="filter-content collapse show" id="collapse_1" style="">
+				<div class="card-body">
+					
+					<ul class="list-menu">
+						{% for i in categories %}
+							<li><a href="{% url 'quiz_by_category' i.category %}">{{i.category}} </a></li> 
+						{% endfor %}
+					</ul>
+	
+				</div> <!-- card-body.// -->
+			</div>
+		</article> <!-- filter-group  .// -->
+		
+	</div> <!-- card.// -->
+	
+		</aside> <!-- col.// -->
+		<main class="col-md-9">
+	
+	<header class="border-bottom mb-4 pb-3">
+			<div class="form-inline">
+				<span class="mr-md-auto">{{quizes|length}} Quizes Available</span>
+				
+			</div>
+	</header><!-- sect-heading -->
+	<div class="row">
+		{% for item in quizes %}
+		<div class="col-md-6 mb-4">
+			<figure class="card card-product-grid">
+				<div class="img-wrap">
+					<!-- You can add an image here if available -->
+					<!-- <img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-fluid"> -->
+				</div>
+				<figcaption class="info-wrap border-top">
+					<div class="fix-height">
+						<h6 class="title">{{ item.title }}</h6>
+					</div>
+					<div class="action-wrap">
+						<a href="{% url 'selectedQuiz' item.id %}" class="btn btn-success btn-sm">Take Quiz</a>
+						<a href="{% url 'quizDetail' item.id %}" class="btn btn-primary btn-sm ml-2">Quiz Detail</a>
+					</div>
+				</figcaption>
+				<a href="{% url 'rateQuiz' item.id %}" style="color: purple;">Rate Quiz</a>
+
+			</figure>
+		</div> <!-- col.// -->
+		{% endfor %}
+
+	</div> <!-- container .//  -->
+	</section>
+
+{% endif %}
+
+<footer class="section-footer-bottom"  color: #fff; padding: 10px; text-align: center;">
+	<div class="container">
+		<section class="footer-bottom border-top row">
+			<div class="col-md-2">
+				<p class="text-muted">&copy; 2023 Company name</p>
+			</div>
+			<div class="col-md-8 text-md-center">
+				<span class="px-2">info@elias_ali_afridi.io</span>
+				<span class="px-2">+8801608626348</span>
+				<span class="px-2">Street no-1, Kanishail, Sylhet</span>
+			</div>
+		</section>
+	</div><!-- //container -->
+</footer>
+{% endblock content %}
